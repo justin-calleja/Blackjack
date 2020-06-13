@@ -3,3 +3,6 @@ var PngCard: PackedScene = preload("res://scenes/card/png_card.tscn")
 # in _ready():
 var card: TextureRect = utils.add_scene(PngCard)
 card.texture = CARDS["3_spade"]
+
+how to init:
+https://godotengine.org/qa/7374/gdscript-utility-classes

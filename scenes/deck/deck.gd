@@ -4,14 +4,12 @@ var cards = []
 var dealt_cards = []
 
 
-
 func init(cards):
 	self.cards = cards
 
+
 func _ready():
-	pass
-#	var card: TextureRect = utils.add_scene(PngCard)
-#	card.texture = CARDS["3_spade"]
+	randomize()
 	
 	
 #	var card = PngCard.instance()
