@@ -1,0 +1,5 @@
+var PngCard: PackedScene = preload("res://scenes/card/png_card.tscn")
+
+# in _ready():
+var card: TextureRect = utils.add_scene(PngCard)
+card.texture = CARDS["3_spade"]
