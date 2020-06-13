@@ -1,7 +1,7 @@
 extends Node2D
 
 
-onready var card = $Card
+onready var deck = $Deck
 
 
 

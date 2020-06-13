@@ -16,12 +16,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Blackjack"
-run/main_scene="res://scenes/deck/deck.tscn"
+run/main_scene="res://scenes/game/tmp.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 utils="*res://utils.gd"
+
+[display]
+
+window/size/height=1024
 
 [rendering]
 
