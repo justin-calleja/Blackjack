@@ -1,4 +1,4 @@
-extends Node2D
+extends ColorRect
 class_name Deck
 
 var all_card_names

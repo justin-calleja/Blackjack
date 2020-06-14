@@ -2,13 +2,11 @@
 
 [ext_resource path="res://scenes/deck/deck.gd" type="Script" id=2]
 
-[node name="Deck" type="Node2D"]
-script = ExtResource( 2 )
-
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Deck" type="ColorRect"]
 margin_right = 40.0
 margin_bottom = 40.0
 color = Color( 0.235294, 0.686275, 0.32549, 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
