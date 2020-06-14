@@ -5,7 +5,7 @@ var Card = preload("res://scenes/card/card.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var card = utils.add_scene(Card)
+	var card = SceneUtils.add_scene(Card)
 	card.set_text("H2")
 
 

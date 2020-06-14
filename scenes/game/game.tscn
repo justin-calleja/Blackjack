@@ -20,8 +20,3 @@ __meta__ = {
 }
 
 [node name="Deck" parent="." instance=ExtResource( 1 )]
-anchor_right = 0.8
-margin_left = 915.092
-margin_top = 47.7628
-margin_right = 95.8924
-margin_bottom = 47.7628

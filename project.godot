@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "TextureRect",
+"class": "Card",
+"language": "GDScript",
+"path": "res://scenes/card/card.gd"
+}, {
+"base": "Node2D",
+"class": "Deck",
+"language": "GDScript",
+"path": "res://scenes/deck/deck.gd"
+} ]
 _global_script_class_icons={
-
+"Card": "",
+"Deck": ""
 }
 
 [application]
@@ -21,11 +32,11 @@ config/icon="res://icon.png"
 
 [autoload]
 
-utils="*res://utils.gd"
+SceneUtils="*res://scripts/scene_utils.gd"
 
 [display]
 
-window/size/height=1024
+window/size/height=640
 
 [editor_plugins]
 

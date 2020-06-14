@@ -1,8 +1,39 @@
 var PngCard: PackedScene = preload("res://scenes/card/png_card.tscn")
 
 # in _ready():
-var card: TextureRect = utils.add_scene(PngCard)
+var card: TextureRect = SceneUtils.add_scene(PngCard)
 card.texture = CARDS["3_spade"]
 
 how to init:
 https://godotengine.org/qa/7374/gdscript-utility-classes
+
+
+#	if card_names.has(card_name):
+#		texture = Utils.CARDS[card_name]
+#	else:
+#		push_error("The following card name is invalid: '" + card_name + "'")
+
+
+
+const Utils = preload("res://scripts/utils.gd")
+var card_names = Utils.CARDS.keys()
+
+export var is_front = false setget set_is_front
+
+func set_is_front(new_value):
+	is_front = new_value
+	if is_front: flip_front()
+	else: flip_back()
+
+# -------- previous Tool ------------
+
+tool
+extends Node
+
+export (PoolVector2Array) var targets = []
+
+func _get_configuration_warning():
+	if targets.size() == 0:
+		return 'Cannot have a deck with no targets to serve cards to.'
+	return ''
+
