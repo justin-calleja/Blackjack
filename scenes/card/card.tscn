@@ -114,3 +114,5 @@ __meta__ = {
 anims/IDLE = SubResource( 1 )
 anims/flip_back = SubResource( 2 )
 anims/flip_front = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="."]

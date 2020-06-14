@@ -1,5 +1,6 @@
 extends Control
 
+# TODO: check if you still need the Tween here:
 onready var tween = $Tween
 onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
@@ -8,26 +9,42 @@ var Card = preload("res://scenes/card/card.tscn")
 
 
 func _ready():
+	init_deck()
+
+
+func init_deck():
 	var card_names = Utils.CARDS.keys()
 	card_names.erase("back")
 	deck.init(card_names)
 	deck.shuffle()
 
 
-func _on_DealButton_pressed():
+func take_card_from_deck(is_face_up = true) -> Card:
 	var card_name = deck.deal()
-	if card_name == null: return
+	if card_name == null: return null
 
 	var card = Card.instance()
-	card.init(Utils.CARDS[card_name], Utils.CARDS["back"], true)
+	card.init(Utils.CARDS[card_name], Utils.CARDS["back"], is_face_up)
 	deck.add_child(card)
+	return card
+
+
+
+func _on_DealButton_pressed():
+	var card = take_card_from_deck()
 	
-	var pos1 = deal_btn.rect_position + Vector2(-200, 0)
-	print_debug(deal_btn.rect_position)
-	print_debug(card.rect_global_position)
-	print_debug(deck.rect_global_position)
-	tween.interpolate_property(card, "rect_position",
-		card.rect_position, deal_btn.rect_global_position, 0.5,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+#	print(deal_btn.rect_position)
+#	print(card.rect_size)
+#	var player_card_1_position = Vector2(-400, -card.rect_size.y + deal_btn.rect_size.y)
+#	var player_card_1_position = Vector2(-400, -card.rect_size.y)
+#	var player_card_1_position = Vector2(-400, -deal_btn.rect_position.y)
+	
+	var pos1 = deal_btn.rect_position + Vector2(-400, deal_btn.rect_size.y - card.rect_size.y)
+
+#	card.move_to(deal_btn.rect_position + player_card_1_position)
+	card.move_to(pos1)
+	
+	var card2 = take_card_from_deck()
+	var pos2 = deal_btn.rect_position + Vector2(-350, deal_btn.rect_size.y - card.rect_size.y)
+	card2.move_to(pos2)
 
