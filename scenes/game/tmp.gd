@@ -1,7 +1,5 @@
 extends Control
 
-# TODO: check if you still need the Tween here:
-onready var tween = $Tween
 onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
 var Utils = preload("res://scripts/utils.gd")
@@ -32,16 +30,9 @@ func take_card_from_deck(is_face_up = true) -> Card:
 
 func _on_DealButton_pressed():
 	var card = take_card_from_deck()
-	
-#	print(deal_btn.rect_position)
-#	print(card.rect_size)
-#	var player_card_1_position = Vector2(-400, -card.rect_size.y + deal_btn.rect_size.y)
-#	var player_card_1_position = Vector2(-400, -card.rect_size.y)
-#	var player_card_1_position = Vector2(-400, -deal_btn.rect_position.y)
+
 	
 	var pos1 = deal_btn.rect_position + Vector2(-400, deal_btn.rect_size.y - card.rect_size.y)
-
-#	card.move_to(deal_btn.rect_position + player_card_1_position)
 	card.move_to(pos1)
 	
 	var card2 = take_card_from_deck()

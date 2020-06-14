@@ -43,12 +43,3 @@ func move_to(pos):
 	)
 	tween.start()
 
-
-#func less_length(y):
-#	return y - self.rect_size.y
-#
-#func vector2_size_up(x) -> Vector2:
-#	return Vector2(x, -self.rect_size.y)
-	#	var player_card_1_position = Vector2(-400, -card.rect_size.y + deal_btn.rect_size.y)
-
-

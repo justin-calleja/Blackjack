@@ -37,3 +37,12 @@ func _get_configuration_warning():
 		return 'Cannot have a deck with no targets to serve cards to.'
 	return ''
 
+
+--------
+
+	
+#	print(deal_btn.rect_position)
+#	print(card.rect_size)
+#	var player_card_1_position = Vector2(-400, -card.rect_size.y + deal_btn.rect_size.y)
+#	var player_card_1_position = Vector2(-400, -card.rect_size.y)
+#	var player_card_1_position = Vector2(-400, -deal_btn.rect_position.y)
