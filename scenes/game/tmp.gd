@@ -5,6 +5,10 @@ onready var deal_btn = $DealButton
 var Utils = preload("res://scripts/utils.gd")
 var Card = preload("res://scenes/card/card.tscn")
 
+var player_card_1 : Card
+var player_card_2 : Card
+var dealer_card_1 : Card
+var dealer_card_2 : Card
 
 func _ready():
 	init_deck()
@@ -27,15 +31,29 @@ func take_card_from_deck(is_face_up = true) -> Card:
 	return card
 
 
-
 func _on_DealButton_pressed():
-	var card = take_card_from_deck()
-
+	player_card_1 = take_card_from_deck()
+	var pos1 = deal_btn.rect_position + Vector2(-400, (deal_btn.rect_size.y + 25) - player_card_1.rect_size.y)
+	player_card_1.move_to(pos1)
+	yield(get_tree().create_timer(0.25), "timeout")
 	
-	var pos1 = deal_btn.rect_position + Vector2(-400, deal_btn.rect_size.y - card.rect_size.y)
-	card.move_to(pos1)
+	dealer_card_1 = take_card_from_deck()
+	var pos2 = deck.rect_global_position + Vector2(-400, -25)
+	dealer_card_1.move_to(pos2)
+	yield(get_tree().create_timer(0.25), "timeout")
 	
-	var card2 = take_card_from_deck()
-	var pos2 = deal_btn.rect_position + Vector2(-350, deal_btn.rect_size.y - card.rect_size.y)
-	card2.move_to(pos2)
+	player_card_2 = take_card_from_deck()
+	player_card_2.rect_rotation = 3
+	var pos3 = deal_btn.rect_position + Vector2(-350, (deal_btn.rect_size.y + 25) - player_card_2.rect_size.y)
+	player_card_2.move_to(pos3, 1)
+	yield(get_tree().create_timer(0.3), "timeout")
+	
+	dealer_card_2 = take_card_from_deck(false)
+	dealer_card_2.rect_rotation = 3
+	var pos4 = deck.rect_global_position + Vector2(-350, -25)
+	dealer_card_2.move_to(pos4, 1)
+	
 
+func _on_FlipButton_pressed():
+	if dealer_card_2:
+		dealer_card_2.flip_front()

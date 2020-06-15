@@ -32,14 +32,14 @@ func set_back_texture():
 	texture = back_texture
 
 
-func move_to(pos):
+func move_to(pos, duration = 0.5):
 	tween.interpolate_property(
 		self,
 		"rect_global_position",
 		self.rect_global_position,
 		pos,
-		0.5,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		duration,
+		Tween.TRANS_CUBIC, Tween.EASE_OUT
 	)
 	tween.start()
 
