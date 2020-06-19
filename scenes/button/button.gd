@@ -1,8 +1,18 @@
 extends Button
 
+onready var label = $Label
+onready var ap = $AnimationPlayer
 
-signal clicked(text)
+
+func set_label_text(txt):
+	label.text = txt
 
 
-func _on_Button_pressed():
-	emit_signal("clicked", text)
+func fade_in():
+	ap.play("in")
+	disabled = false
+	
+
+func fade_out():
+	ap.play("out")
+	disabled = true

@@ -1,48 +1,67 @@
 extends Control
 
+const StateMachineFactory = preload("res://addons/godot-finite-state-machine/state_machine_factory.gd")
+const Utils = preload("res://scripts/utils.gd")
+const Card = preload("res://scenes/card/card.tscn")
+const IdleState = preload("res://scripts/idle_state.gd")
+const DealInitialHandsState = preload("res://scripts/deal_initial_hands_state.gd")
+#var SM = preload("res://scripts/state_machine.gd"
+#var sm: SM = null
+
 onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
-var Utils = preload("res://scripts/utils.gd")
-var Card = preload("res://scenes/card/card.tscn")
-var SM = preload("res://scripts/state_machine.gd")
-var sm: SM = null
+onready var smf = StateMachineFactory.new()
 
 var player_card_1 : Card
 var player_card_2 : Card
 var dealer_card_1 : Card
 var dealer_card_2 : Card
 
-enum States {
-	IDLE,
-	DEAL_INITIAL_HANDS,
-}
+#enum States {
+#	IDLE,
+#	DEAL_INITIAL_HANDS,
+#}
+#
+#
+#enum Events {
+#	DEAL,
+#	DEAL_DONE,
+#	HIT,
+#	PLAYER_LOSE,
+#	PLAYER_WIN,
+#	STAND
+#}
+#
+#var state = States.IDLE
+#
+#
+#const transitions = {
+#	[States.IDLE, Events.DEAL]: States.DEAL_INITIAL_HANDS,
+#	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
+#	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
+#
+#	# [States.HIT_IN_PROGRESS, Events.HIT]: States.HIT_IN_PROGRESS,
+#}
 
-
-enum Events {
-	DEAL,
-	DEAL_DONE,
-	HIT,
-	PLAYER_LOSE,
-	PLAYER_WIN,
-	STAND
-}
-
-var state = States.IDLE
-
-
-const transitions = {
-	[States.IDLE, Events.DEAL]: States.DEAL_INITIAL_HANDS,
-	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
-	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
-
-	# [States.HIT_IN_PROGRESS, Events.HIT]: States.HIT_IN_PROGRESS,
-}
-
+var sm
 
 func _ready():
-	sm = SM.new()
-	sm.subscribe(self)
+#	sm = SM.new()
+#	sm.subscribe(self)
+	deal_btn.set_label_text("Deal")
 	init_deck()
+	sm = smf.create({
+		"target": self,
+		"current_state": "idle",
+		"states": [
+			{"id": "idle", "state": IdleState},
+			{"id": "deal_initial_hands", "state": DealInitialHandsState},
+		],
+		"transitions": [
+			{ "state_id": "idle", "to_states": ["deal_initial_hands"] },
+			{ "state_id": "deal_initial_hands", "to_states": ["idle"] },
+		]
+	})
 
 
 func init_deck():
@@ -76,16 +95,17 @@ func take_card_from_deck(is_face_up = true) -> Card:
 	return card
 
 
-func enter_state(state):
-	match state:
-		SM.States.DEAL_INITIAL_HANDS:
-			print('in here....')
-			# TODO
-#			# deal_btn.visible = false
-			deal_initial_hands()
+#func enter_state(state):
+#	match state:
+#		SM.States.DEAL_INITIAL_HANDS:
+#			print('in here....')
+#			# TODO
+##			# deal_btn.visible = false
+#			deal_initial_hands()
 
 func _on_DealButton_pressed():
-	sm.change_state(SM.Events.DEAL)
+	sm.transition("deal_initial_hands")
+#	sm.change_state(SM.Events.DEAL)
 #	change_state(Events.DEAL)
 	
 
