@@ -4,6 +4,8 @@ onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
 var Utils = preload("res://scripts/utils.gd")
 var Card = preload("res://scenes/card/card.tscn")
+var SM = preload("res://scripts/state_machine.gd")
+var sm: SM = null
 
 var player_card_1 : Card
 var player_card_2 : Card
@@ -38,6 +40,8 @@ const transitions = {
 
 
 func _ready():
+	sm = SM.new()
+	sm.subscribe(self)
 	init_deck()
 
 
@@ -48,18 +52,18 @@ func init_deck():
 	deck.shuffle()
 
 
-func change_state(event):
-	var transition = [state, event]
-	if not transition in transitions:
-		print_debug('No transition when in state: ' + str(state) + ' and given event: ' + str(event))
-		return
-	
-	state = transitions[transition]
-	match state:
-		States.DEAL_INITIAL_HANDS:
-			# TODO:
-			# deal_btn.visible = false
-			deal_initial_hands()
+#func change_state(event):
+#	var transition = [state, event]
+#	if not transition in transitions:
+#		print_debug('No transition when in state: ' + str(state) + ' and given event: ' + str(event))
+#		return
+#
+#	state = transitions[transition]
+#	match state:
+#		States.DEAL_INITIAL_HANDS:
+#			# TODO
+#			# deal_btn.visible = false
+#			deal_initial_hands()
 
 
 func take_card_from_deck(is_face_up = true) -> Card:
@@ -72,8 +76,17 @@ func take_card_from_deck(is_face_up = true) -> Card:
 	return card
 
 
+func enter_state(state):
+	match state:
+		SM.States.DEAL_INITIAL_HANDS:
+			print('in here....')
+			# TODO
+#			# deal_btn.visible = false
+			deal_initial_hands()
+
 func _on_DealButton_pressed():
-	change_state(Events.DEAL)
+	sm.change_state(SM.Events.DEAL)
+#	change_state(Events.DEAL)
 	
 
 func _on_FlipButton_pressed():
