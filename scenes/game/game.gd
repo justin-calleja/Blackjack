@@ -3,19 +3,27 @@ extends Control
 const StateMachineFactory = preload("res://addons/godot-finite-state-machine/state_machine_factory.gd")
 const Utils = preload("res://scripts/utils.gd")
 const Card = preload("res://scenes/card/card.tscn")
-const IdleState = preload("res://scripts/idle_state.gd")
-const DealInitialHandsState = preload("res://scripts/deal_initial_hands_state.gd")
+# const States
+const States = preload("res://scripts/states.gd")
+#const IdleState = preload("res://scripts/idle_state.gd")
+#const DealInitialHandsState = preload("res://scripts/deal_initial_hands_state.gd")
 #var SM = preload("res://scripts/state_machine.gd"
 #var sm: SM = null
 
 onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
-onready var smf = StateMachineFactory.new()
+onready var hit_btn = $HitButton
+
 
 var player_card_1 : Card
 var player_card_2 : Card
 var dealer_card_1 : Card
 var dealer_card_2 : Card
+
+var IdleState = States.IdleState
+var DealInitialHandsState = States.DealInitialHandsState
+# const a = States.IdleState
+# const DealInitialHandsState = States.DealInitialHandsState
 
 #enum States {
 #	IDLE,
@@ -43,23 +51,26 @@ var dealer_card_2 : Card
 #	# [States.HIT_IN_PROGRESS, Events.HIT]: States.HIT_IN_PROGRESS,
 #}
 
+
 var sm
 
 func _ready():
-#	sm = SM.new()
-#	sm.subscribe(self)
+	hit_btn.set_label_text(("Hit"))
+	hit_btn.visible = false
 	deal_btn.set_label_text("Deal")
 	init_deck()
+	
+	var smf = StateMachineFactory.new()
 	sm = smf.create({
 		"target": self,
 		"current_state": "idle",
 		"states": [
-			{"id": "idle", "state": IdleState},
-			{"id": "deal_initial_hands", "state": DealInitialHandsState},
+			{"id": IdleState.ID, "state": IdleState},
+			{"id": DealInitialHandsState.ID, "state": DealInitialHandsState},
 		],
 		"transitions": [
-			{ "state_id": "idle", "to_states": ["deal_initial_hands"] },
-			{ "state_id": "deal_initial_hands", "to_states": ["idle"] },
+			{ "state_id": IdleState.ID, "to_states": [ DealInitialHandsState.ID] },
+			{ "state_id":  DealInitialHandsState.ID, "to_states": [IdleState.ID] },
 		]
 	})
 
@@ -109,9 +120,9 @@ func _on_DealButton_pressed():
 #	change_state(Events.DEAL)
 	
 
-func _on_FlipButton_pressed():
-	if dealer_card_2:
-		dealer_card_2.flip_front()
+#func _on_FlipButton_pressed():
+#	if dealer_card_2:
+#		dealer_card_2.flip_front()
 
 
 
