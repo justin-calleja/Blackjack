@@ -58,3 +58,8 @@ func add_scene(scene):
 	var instance = scene.instance()
 	main.add_child(instance)
 	return instance
+
+---
+
+When player or dealer get more than 2 cards, first card is rotated a bit. All other cards are also rotated a bit.
+

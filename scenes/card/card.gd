@@ -6,12 +6,16 @@ onready var ap: AnimationPlayer = $AnimationPlayer
 export var is_face_up = false
 export var front_texture: Texture
 export var back_texture: Texture
+export(int) var value = 0
+export(int) var alt_value = 0
 
 
-func init(front_texture, back_texture, is_face_up = false):
-	self.front_texture = front_texture
-	self.back_texture = back_texture
-	self.is_face_up = is_face_up
+func init(_front_texture, _back_texture, _is_face_up = false, _value = 0, _alt_value = 0):
+	front_texture = _front_texture
+	back_texture = _back_texture
+	value = _value
+	alt_value = _alt_value
+	is_face_up = _is_face_up
 	if is_face_up: set_front_texture()
 	else: set_back_texture()
 	
