@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/deck/deck.gd"
 }, {
-"base": "Reference",
-"class": "SM",
-"language": "GDScript",
-"path": "res://scripts/state_machine.gd"
-}, {
 "base": "Resource",
 "class": "StateMachine",
 "language": "GDScript",
@@ -37,7 +32,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Card": "",
 "Deck": "",
-"SM": "",
 "StateMachine": "",
 "StateMachineFactory": ""
 }
@@ -47,10 +41,6 @@ _global_script_class_icons={
 config/name="Blackjack"
 run/main_scene="res://scenes/game/game.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-SceneUtils="*res://scripts/scene_utils.gd"
 
 [display]
 

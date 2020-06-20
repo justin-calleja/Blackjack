@@ -53,3 +53,4 @@ const CARDS = {
 	"queen_heart": preload("res://assets/cards/queen_heart.png"),
 	"queen_spade": preload("res://assets/cards/queen_spade.png")
 }
+

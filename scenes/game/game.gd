@@ -3,12 +3,12 @@ extends Control
 const StateMachineFactory = preload("res://addons/fsm/StateMachineFactory.gd")
 const Utils = preload("res://scripts/utils.gd")
 const Card = preload("res://scenes/card/card.tscn")
-# const States
 const States = preload("res://scripts/states.gd")
-#const IdleState = preload("res://scripts/idle_state.gd")
-#const DealInitialHandsState = preload("res://scripts/deal_initial_hands_state.gd")
-#var SM = preload("res://scripts/state_machine.gd"
-#var sm: SM = null
+
+
+const IdleState = States.IdleState
+const DealInitialHandsState = States.DealInitialHandsState
+
 
 onready var deck: Deck = $Control/Deck
 onready var deal_btn = $DealButton
@@ -19,37 +19,6 @@ var player_card_1 : Card
 var player_card_2 : Card
 var dealer_card_1 : Card
 var dealer_card_2 : Card
-
-var IdleState = States.IdleState
-var DealInitialHandsState = States.DealInitialHandsState
-# const a = States.IdleState
-# const DealInitialHandsState = States.DealInitialHandsState
-
-#enum States {
-#	IDLE,
-#	DEAL_INITIAL_HANDS,
-#}
-#
-#
-#enum Events {
-#	DEAL,
-#	DEAL_DONE,
-#	HIT,
-#	PLAYER_LOSE,
-#	PLAYER_WIN,
-#	STAND
-#}
-#
-#var state = States.IDLE
-#
-#
-#const transitions = {
-#	[States.IDLE, Events.DEAL]: States.DEAL_INITIAL_HANDS,
-#	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
-#	[States.DEAL_INITIAL_HANDS, Events.DEAL_DONE]: States.IDLE,
-#
-#	# [States.HIT_IN_PROGRESS, Events.HIT]: States.HIT_IN_PROGRESS,
-#}
 
 
 var sm
@@ -63,14 +32,14 @@ func _ready():
 	var smf = StateMachineFactory.new()
 	sm = smf.create({
 		"target": self,
-		"current_state": "idle",
+		"current_state": IdleState.ID,
 		"states": [
 			{"id": IdleState.ID, "state": IdleState},
 			{"id": DealInitialHandsState.ID, "state": DealInitialHandsState},
 		],
 		"transitions": [
-			{ "state_id": IdleState.ID, "to_states": [ DealInitialHandsState.ID] },
-			{ "state_id":  DealInitialHandsState.ID, "to_states": [IdleState.ID] },
+			{ "state_id": IdleState.ID, "to_states": [ DealInitialHandsState.ID ] },
+			{ "state_id":  DealInitialHandsState.ID, "to_states": [ IdleState.ID ] },
 		]
 	})
 
