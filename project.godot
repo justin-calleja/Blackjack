@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "SM",
 "language": "GDScript",
 "path": "res://scripts/state_machine.gd"
+}, {
+"base": "Resource",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://addons/fsm/StateMachine.gd"
+}, {
+"base": "Resource",
+"class": "StateMachineFactory",
+"language": "GDScript",
+"path": "res://addons/fsm/StateMachineFactory.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
 "Deck": "",
-"SM": ""
+"SM": "",
+"StateMachine": "",
+"StateMachineFactory": ""
 }
 
 [application]

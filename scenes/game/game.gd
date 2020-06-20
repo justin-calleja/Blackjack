@@ -1,6 +1,6 @@
 extends Control
 
-const StateMachineFactory = preload("res://addons/godot-finite-state-machine/state_machine_factory.gd")
+const StateMachineFactory = preload("res://addons/fsm/StateMachineFactory.gd")
 const Utils = preload("res://scripts/utils.gd")
 const Card = preload("res://scenes/card/card.tscn")
 # const States

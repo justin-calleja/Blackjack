@@ -1,7 +1,8 @@
-const StateMachine = preload("res://addons/godot-finite-state-machine/state_machine.gd")
+const State = preload("res://addons/fsm/StateMachine.gd").State
+
 
 # class IdleState extends "state.gd":
-class IdleState extends StateMachine.State:
+class IdleState extends State:
 	
 	const ID = "idle"
 	
@@ -14,7 +15,7 @@ class IdleState extends StateMachine.State:
 
 
 # class DealInitialHandsState extends "state.gd":
-class DealInitialHandsState extends StateMachine.State:
+class DealInitialHandsState extends State:
 
 	const ID = "deal_initial_hands"
 		
