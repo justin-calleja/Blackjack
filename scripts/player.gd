@@ -47,9 +47,3 @@ func adjust_cards():
 func get_number_of_cards_held():
 	return cards.size()
 
-
-func has_blackjack():
-	pass
-	# var values = []
-	# for card in cards:
-	# 	card.value

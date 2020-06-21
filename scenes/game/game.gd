@@ -2,12 +2,10 @@ extends Control
 
 
 const StateMachineFactory = preload("res://addons/fsm/StateMachineFactory.gd")
-const Utils = preload("res://scripts/utils.gd")
 const Card = preload("res://scenes/card/card.tscn")
 const States = preload("res://scripts/states.gd")
-const BJ = preload("res://scripts/blackjack.gd")
 const Player = preload("res://scripts/player.gd")
-const Deck = preload("res://scripts/deck.gd")
+const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
 
 
 const IdleState = States.IdleState
@@ -19,13 +17,13 @@ onready var deal_btn = $DealButton
 onready var hit_btn = $HitButton
 
 
-var deck: Deck
+var deck: BlackjackDeck
 var sm: StateMachine
 var player = Player
 var dealer = Player
 
 func _ready():
-	deck = Deck.new()
+	deck = BlackjackDeck.new()
 	deck.shuffle()
 
 	player = Player.new(deck, get_player_position())

@@ -6,17 +6,21 @@ onready var ap: AnimationPlayer = $AnimationPlayer
 export var is_face_up = false
 export var front_texture: Texture
 export var back_texture: Texture
-var card_name: String
+var id: String
 
 
-func init(_card_name, _front_texture, _back_texture, _is_face_up = false):
-	card_name = _card_name
+func init(_id, _front_texture, _back_texture, _is_face_up = false):
+	id = _id
 	front_texture = _front_texture
 	back_texture = _back_texture
 	is_face_up = _is_face_up
 	if is_face_up: set_front_texture()
 	else: set_back_texture()
 	
+
+func get_name():
+	return id
+
 
 func flip_front():
 	ap.play("flip_front")

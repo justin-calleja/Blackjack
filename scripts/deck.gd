@@ -1,22 +1,17 @@
 class_name Deck
 
 
-const Utils = preload("res://scripts/utils.gd")
 const Card = preload("res://scenes/card/card.tscn")
 # the string dealt when deck is empty:
 const EMPTY = "EMPTY"
 
-var all_card_names
-var undealt_card_names
+var all_card_names : Array
+var undealt_card_names : Array
 var dealt_card_names = []
 
 
 func _init():
 	randomize()
-	var card_names = Utils.CARDS.keys()
-	card_names.erase("back")
-	all_card_names = card_names
-	undealt_card_names = all_card_names.duplicate()
 
 
 func shuffle() -> void:
@@ -45,16 +40,6 @@ func __deal_card_name() -> String:
 
 
 func __take_card(is_face_up = true) -> Card:
-	var card_name = __deal_card_name()
-	if card_name == EMPTY:
-		return null
-
-	var card = Card.instance()
-	card.init(
-		card_name,
-		Utils.CARDS[card_name].png,
-		Utils.CARDS["back"].png,
-		is_face_up
-	)
-	return card
+	print_debug("__take_card in deck.gd should be implemented in a sub-class")
+	return null
 
