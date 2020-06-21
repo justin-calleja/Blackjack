@@ -63,3 +63,29 @@ func add_scene(scene):
 
 When player or dealer get more than 2 cards, first card is rotated a bit. All other cards are also rotated a bit.
 
+---
+
+func get_hand_value(whose: int):
+	var hand_container: Card = player_hand_container if whose==Hand.PLAYER else dealer_hand_container
+	var hand = hand_container.get_children()
+	
+	var aces = 0
+	var total = 0
+	for card in hand:
+		if card.card_type == Card.CardType.ACE:
+			aces += 1
+		else:
+			total += Card.get_type_value(card.card_type)
+	if aces > 1:
+		total += aces-1
+		aces = 1
+	if total > 10:
+		total += aces
+	else:
+		total += aces*11
+	return total
+
+
+- - -
+Utils.CARDS[card_name].value,
+Utils.CARDS[card_name].alt_value if Utils.CARDS[card_name].has("alt_value") else 0

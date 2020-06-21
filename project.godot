@@ -14,10 +14,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/card/card.gd"
 }, {
-"base": "ColorRect",
+"base": "Reference",
 "class": "Deck",
 "language": "GDScript",
-"path": "res://scenes/deck/deck.gd"
+"path": "res://scripts/deck.gd"
 }, {
 "base": "Resource",
 "class": "StateMachine",
