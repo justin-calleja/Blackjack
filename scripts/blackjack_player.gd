@@ -1,7 +1,10 @@
 extends "res://scripts/player.gd"
 class_name BlackjackPlayer
 
-# Use of "hand" in a function name implies working with self.cards
+
+#https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html#class-constructor
+func _init(_deck, _position, _cards_x_offset = 50).(_deck, _position, _cards_x_offset):
+	pass
 
 
 func get_highest_hand_values() -> Array:

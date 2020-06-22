@@ -1,3 +1,5 @@
+class_name Player
+
 var cards = []
 var deck: Deck
 var position: Vector2

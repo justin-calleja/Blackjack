@@ -4,32 +4,36 @@ extends Control
 const StateMachineFactory = preload("res://addons/fsm/StateMachineFactory.gd")
 const Card = preload("res://scenes/card/card.tscn")
 const States = preload("res://scripts/states.gd")
-const Player = preload("res://scripts/player.gd")
+const BlackjackPlayer = preload("res://scripts/blackjack_player.gd")
 const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
 
 
 const IdleState = States.IdleState
 const DealInitialHandsState = States.DealInitialHandsState
+const PlayerInputState = States.PlayerInputState
 
 
 onready var deck_rect: ColorRect = $Control/DeckRect
 onready var deal_btn = $DealButton
 onready var hit_btn = $HitButton
+onready var stand_btn = $StandButton
 
 
 var deck: BlackjackDeck
 var sm: StateMachine
-var player = Player
-var dealer = Player
+var player : BlackjackPlayer
+var dealer : BlackjackPlayer
 
 func _ready():
 	deck = BlackjackDeck.new()
 	deck.shuffle()
 
-	player = Player.new(deck, get_player_position())
-	dealer = Player.new(deck, get_dealer_position())
+	player = BlackjackPlayer.new(deck, get_player_position())
+	dealer = BlackjackPlayer.new(deck, get_dealer_position())
 	hit_btn.set_label_text("Hit")
 	hit_btn.visible = false
+	stand_btn.set_label_text("Stand")
+	stand_btn.visible = false
 	deal_btn.set_label_text("Deal")
 
 	var smf = StateMachineFactory.new()
@@ -41,11 +45,14 @@ func _ready():
 			[
 				{"id": IdleState.ID, "state": IdleState},
 				{"id": DealInitialHandsState.ID, "state": DealInitialHandsState},
+				{"id": PlayerInputState.ID, "state": PlayerInputState},
 			],
 			"transitions":
 			[
-				{"state_id": IdleState.ID, "to_states": [DealInitialHandsState.ID]},
-				{"state_id": DealInitialHandsState.ID, "to_states": [IdleState.ID]},
+				{"state_id": IdleState.ID, "to_states": [DealInitialHandsState.ID, PlayerInputState.ID]},
+				# {"state_id": IdleState.ID, "to_states": [PlayerInputState.ID]},
+				# {"state_id": DealInitialHandsState.ID, "to_states": [IdleState.ID]},
+				{"state_id": DealInitialHandsState.ID, "to_states": [PlayerInputState.ID]},
 			]
 		}
 	)
@@ -63,7 +70,7 @@ func get_dealer_position():
 
 
 func _on_DealButton_pressed():
-	sm.transition("deal_initial_hands")
+	sm.transition(DealInitialHandsState.ID)
 
 
 #func _on_FlipButton_pressed():
