@@ -64,3 +64,19 @@ func __pure_replace_first_11_with_1(values: Array):
 			result.append(value)
 
 	return result
+
+
+func has_blackjack():
+	return get_best_hand_total() == 21
+	# var player_total = player.get_best_hand_total()
+	# var dealer_total = dealer.get_best_hand_total()
+
+	# if player_total == 21 and dealer_total == 21:
+	# 	# sm.transition("draw")
+	# 	return true
+	# elif player_total == 21:
+	# 	# sm.transition(PlayerBlackjackState.ID)
+	# 	return true
+	# elif dealer_total == 21:
+	# 	# sm.transition(DealerBlackjackState.ID)
+	# 	return true

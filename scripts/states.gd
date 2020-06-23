@@ -1,16 +1,13 @@
 const State = preload("res://addons/fsm/StateMachine.gd").State
 
 
-class IdleState extends State:
-	const ID = "idle"
+class StartState extends State:
+	const ID = "start"
 	
 
 	func _on_enter_state():
-		print("enter idle state")
-		target.hit_btn.visible = false
-		target.deal_btn.visible = true
+		print("enter %s state" % ID)
 		target.deal_btn.fade_in()
-
 
 
 class DealInitialHandsState extends State:
@@ -18,20 +15,22 @@ class DealInitialHandsState extends State:
 		
 		
 	func _on_enter_state():
+		print("enter %s state" % ID)
 		target.deal_btn.fade_out()
 		target.deal_initial_hands()
-		var player_total = target.player.get_best_hand_total()
-		var dealer_total = target.dealer.get_best_hand_total()
 
-		if player_total == 21 and dealer_total == 21:
-			target.sm.transition("draw")
-		elif player_total == 21:
-			target.sm.transition(PlayerBlackjackState.ID)
-		elif dealer_total == 21:
-			target.sm.transition(DealerBlackjackState.ID)
+		var is_player_blackjack = target.player.has_blackjack()
+		var is_dealer_blackjack = target.dealer.has_blackjack()
+
+		if is_player_blackjack and is_dealer_blackjack:
+			state_machine.transition("draw")
+		elif is_player_blackjack:
+			state_machine.transition(PlayerBlackjackState.ID)
+		elif is_dealer_blackjack:
+			state_machine.transition(DealerBlackjackState.ID)
 		else:
 			yield(target.get_tree().create_timer(1), "timeout")
-			target.sm.transition(PlayerInputState.ID)
+			state_machine.transition(PlayerInputState.ID)
 
 
 class PlayerBlackjackState extends State:
@@ -39,11 +38,11 @@ class PlayerBlackjackState extends State:
 
 
 	func _on_enter_state():
-		print("enter PlayerBlackjackState. TODO: show blackjack label on player.")
+		print("enter %s state" % ID)
 
 
 	func _on_leave_state():
-		print("about to leave PlayerBlackjackState. TODO: remove blackjack label from player")
+		print("leave %s state" % ID)
 
 
 class DealerBlackjackState extends State:
@@ -51,11 +50,11 @@ class DealerBlackjackState extends State:
 
 
 	func _on_enter_state():
-		print("enter DealerBlackjackState. TODO: show blackjack label on dealer.")
+		print("enter %s state" % ID)
 
 
 	func _on_leave_state():
-		print("about to leave DealerBlackjackState. TODO: remove blackjack label from dealer")
+		print("leave %s state" % ID)
 
 
 class PlayerInputState extends State:
@@ -63,10 +62,28 @@ class PlayerInputState extends State:
 
 
 	func _on_enter_state():
-		print("enter player_input state")
-		target.hit_btn.visible = true
+		print("enter %s state" % ID)
 		target.hit_btn.fade_in()
-		target.stand_btn.visible = true
 		target.stand_btn.fade_in()
 		target.deal_btn.fade_out()
-		target.deal_btn.visible = false
+
+
+class HitState extends State:
+	const ID = "hit"
+
+
+	func _on_enter_state():
+		print("enter %s state" % ID)
+		target.deal_card_face_up_to(target.player)
+		target.player.adjust_cards()
+		# TODO: check player only for blackjack...
+		state_machine.transition(PlayerInputState.ID)
+
+
+class StandState extends State:
+	const ID = "stand"
+
+
+	func _on_enter_state():
+		print("enter %s state" % ID)
+

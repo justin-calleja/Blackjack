@@ -11,8 +11,10 @@ func set_label_text(txt):
 func fade_in():
 	ap.play("in")
 	disabled = false
+	visible = true
 	
 
 func fade_out():
 	ap.play("out")
 	disabled = true
+	visible = false
