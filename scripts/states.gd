@@ -19,8 +19,8 @@ class DealInitialHandsState extends State:
 		target.deal_btn.fade_out()
 		target.deal_initial_hands()
 
-		var is_player_blackjack = target.player.has_blackjack()
-		var is_dealer_blackjack = target.dealer.has_blackjack()
+		var is_player_blackjack = target.player.get_hand_info().is_blackjack
+		var is_dealer_blackjack = target.dealer.get_hand_info().is_blackjack
 
 		if is_player_blackjack and is_dealer_blackjack:
 			state_machine.transition("draw")
@@ -31,6 +31,14 @@ class DealInitialHandsState extends State:
 		else:
 			yield(target.get_tree().create_timer(1), "timeout")
 			state_machine.transition(PlayerInputState.ID)
+
+
+class PlayerLoseState extends State:
+	const ID = "player_lose"
+
+
+	func _on_enter_state():
+		print("enter %s state" % ID)
 
 
 class PlayerBlackjackState extends State:

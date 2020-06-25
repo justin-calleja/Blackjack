@@ -1,6 +1,10 @@
 extends "res://scripts/playing_cards_deck.gd"
 
 
+func _init(card_names).(card_names):
+	pass
+
+
 func card_name_to_value(card_name) -> int:
 	return CARD_VALUES[card_name].value
 

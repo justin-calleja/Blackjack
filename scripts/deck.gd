@@ -24,7 +24,7 @@ func reset() -> void:
 
 
 func take_card_face_up() -> Card:
-	return __take_card()
+	return __take_card(true)
 
 
 func take_card_face_down() -> Card:
@@ -39,7 +39,8 @@ func __deal_card_name() -> String:
 	return card_name
 
 
-func __take_card(is_face_up = true) -> Card:
-	print_debug("__take_card in deck.gd should be implemented in a sub-class")
+func __take_card(_is_face_up = true) -> Card:
+	push_error("in deck.gd __take_card must be implemented by a sub class")
+	assert(false)
 	return null
 

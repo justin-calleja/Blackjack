@@ -20,7 +20,10 @@ func get_cards_total(card_values: Array) -> int:
 		total += card_value
 	return total
 
-
+"""
+Returns the hand's best value or 0 if bust. The best value is always the highest value which is not bust.
+A bust value is a value above 21.
+"""
 func get_best_hand_total() -> int:
 	return __get_best_hand_total(0, get_highest_hand_values())
 
@@ -33,10 +36,6 @@ func __get_best_hand_total(best_total: int, card_values: Array) -> int:
 		new_best_total += card_value
 		if card_value == 11 and alternative_card_values.empty():
 			alternative_card_values = __pure_replace_first_11_with_1(card_values)
-
-	# alternative_card_values (if they exist) can only be less than the new_best_total
-	if not alternative_card_values.empty():
-		assert(get_cards_total(alternative_card_values) < new_best_total, "")
 
 	if new_best_total <= 21:
 		# Since this new_best_total is not bust (over 21), there is no point in calculating
@@ -66,17 +65,11 @@ func __pure_replace_first_11_with_1(values: Array):
 	return result
 
 
-func has_blackjack():
-	return get_best_hand_total() == 21
-	# var player_total = player.get_best_hand_total()
-	# var dealer_total = dealer.get_best_hand_total()
+func get_hand_info():
+	var best_hand_total = get_best_hand_total()
+	return {
+		"is_blackjack": best_hand_total == 21,
+		"is_bust": best_hand_total == 0,
+		"should_dealer_stand": best_hand_total >= 17,
+	}
 
-	# if player_total == 21 and dealer_total == 21:
-	# 	# sm.transition("draw")
-	# 	return true
-	# elif player_total == 21:
-	# 	# sm.transition(PlayerBlackjackState.ID)
-	# 	return true
-	# elif dealer_total == 21:
-	# 	# sm.transition(DealerBlackjackState.ID)
-	# 	return true

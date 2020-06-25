@@ -2,9 +2,9 @@ extends "res://scripts/deck.gd"
 class_name PlayingCardsDeck
 
 
-func _init():
-	var card_names = CARD_IMAGES.keys()
-	card_names.erase("back")
+func _init(card_names):
+	# var card_names = CARD_IMAGES.keys()
+	# card_names.erase("back")
 	all_card_names = card_names
 	undealt_card_names = all_card_names.duplicate()
 

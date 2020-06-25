@@ -11,8 +11,9 @@ const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
 const PlayerBlackjackState = States.PlayerBlackjackState
 const DealerBlackjackState = States.DealerBlackjackState
-const HitState = States.HitState
-const StandState = States.StandState
+# const HitState = States.HitState
+# const StandState = States.StandState
+const PlayerLoseState = States.PlayerLoseState
 
 onready var deck_rect: ColorRect = $Control/DeckRect
 onready var deal_btn = $DealButton
@@ -26,16 +27,20 @@ var dealer: BlackjackPlayer
 
 
 func _ready():
-	deck = BlackjackDeck.new()
+	var card_names = BlackjackDeck.CARD_VALUES.keys()
+	card_names.erase("back")
+	deck = BlackjackDeck.new(card_names)
 	deck.shuffle()
 
 	player = BlackjackPlayer.new(deck, get_player_position())
+	player.name = 'player'
 	dealer = BlackjackPlayer.new(deck, get_dealer_position())
-	hit_btn.set_label_text("Hit")
+	dealer.name = 'dealer'
+	hit_btn.label = "Hit"
 	hit_btn.fade_out()
-	stand_btn.set_label_text("Stand")
+	stand_btn.label = "Stand"
 	stand_btn.fade_out()
-	deal_btn.set_label_text("Deal")
+	deal_btn.label = "Deal"
 
 	var smf = StateMachineFactory.new()
 	sm = smf.create(
@@ -49,8 +54,7 @@ func _ready():
 				{"id": PlayerInputState.ID, "state": PlayerInputState},
 				{"id": PlayerBlackjackState.ID, "state": PlayerBlackjackState},
 				{"id": DealerBlackjackState.ID, "state": DealerBlackjackState},
-				{"id": HitState.ID, "state": HitState},
-				{"id": StandState.ID, "state": StandState},
+				{"id": PlayerLoseState.ID, "state": PlayerLoseState},
 			],
 			"transitions":
 			[
@@ -66,8 +70,10 @@ func _ready():
 					"to_states":
 					[PlayerInputState.ID, PlayerBlackjackState.ID, DealerBlackjackState.ID],
 				},
-				{"state_id": PlayerInputState.ID, "to_states": [HitState.ID, StandState.ID]},
-				{"state_id": HitState.ID, "to_states": [PlayerInputState.ID, StandState.ID]},
+				{
+					"state_id": PlayerInputState.ID,
+					"to_states": [PlayerLoseState.ID, PlayerBlackjackState.ID]
+				},
 			]
 		}
 	)
@@ -91,6 +97,11 @@ func _on_DealButton_pressed():
 func _on_HitButton_pressed():
 	deal_card_face_up_to(player)
 	player.adjust_cards()
+	var player_hand_info = player.get_hand_info()
+	if player_hand_info.is_blackjack:
+		sm.transition(PlayerBlackjackState.ID)
+	elif player_hand_info.is_bust:
+		sm.transition(PlayerLoseState.ID)
 	# TODO: check player only for blackjack...
 	# sm.transition(HitState.ID)
 
@@ -131,4 +142,3 @@ func deal_initial_hands():
 
 	player.adjust_cards()
 	dealer.adjust_cards()
-
