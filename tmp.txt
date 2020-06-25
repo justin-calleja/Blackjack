@@ -89,3 +89,8 @@ func get_hand_value(whose: int):
 - - -
 Utils.CARDS[card_name].value,
 Utils.CARDS[card_name].alt_value if Utils.CARDS[card_name].has("alt_value") else 0
+
+- - -
+
+godot -d -s --path $PWD addons/gut/gut_cmdln.gd -gtest=./test/unit/test_blackjack_player.gd -gexit
+

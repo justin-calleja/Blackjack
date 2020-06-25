@@ -11,7 +11,7 @@ const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
 const PlayerBlackjackState = States.PlayerBlackjackState
 const DealerBlackjackState = States.DealerBlackjackState
-# const HitState = States.HitState
+const HitState = States.HitState
 # const StandState = States.StandState
 const PlayerLoseState = States.PlayerLoseState
 
@@ -21,7 +21,7 @@ onready var hit_btn = $HitButton
 onready var stand_btn = $StandButton
 
 var deck: BlackjackDeck
-var sm: StateMachine
+var state_machine: StateMachine
 var player: BlackjackPlayer
 var dealer: BlackjackPlayer
 
@@ -43,7 +43,7 @@ func _ready():
 	deal_btn.label = "Deal"
 
 	var smf = StateMachineFactory.new()
-	sm = smf.create(
+	state_machine = smf.create(
 		{
 			"target": self,
 			"current_state": StartState.ID,
@@ -54,6 +54,7 @@ func _ready():
 				{"id": PlayerInputState.ID, "state": PlayerInputState},
 				{"id": PlayerBlackjackState.ID, "state": PlayerBlackjackState},
 				{"id": DealerBlackjackState.ID, "state": DealerBlackjackState},
+				{"id": HitState.ID, "state": HitState},
 				{"id": PlayerLoseState.ID, "state": PlayerLoseState},
 			],
 			"transitions":
@@ -72,8 +73,14 @@ func _ready():
 				},
 				{
 					"state_id": PlayerInputState.ID,
-					"to_states": [PlayerLoseState.ID, PlayerBlackjackState.ID]
+					"to_states": [PlayerLoseState.ID, PlayerBlackjackState.ID, HitState.ID]
 				},
+				{
+					"state_id": HitState.ID,
+					"to_states": [PlayerInputState.ID, PlayerBlackjackState.ID, PlayerLoseState.ID]
+				},
+				{"state_id": PlayerBlackjackState.ID, "to_states": [PlayerInputState.ID]},
+				{"state_id": PlayerLoseState.ID, "to_states": [PlayerInputState.ID]},
 			]
 		}
 	)
@@ -91,19 +98,11 @@ func get_dealer_position():
 
 
 func _on_DealButton_pressed():
-	sm.transition(DealInitialHandsState.ID)
+	state_machine.transition(DealInitialHandsState.ID)
 
 
 func _on_HitButton_pressed():
-	deal_card_face_up_to(player)
-	player.adjust_cards()
-	var player_hand_info = player.get_hand_info()
-	if player_hand_info.is_blackjack:
-		sm.transition(PlayerBlackjackState.ID)
-	elif player_hand_info.is_bust:
-		sm.transition(PlayerLoseState.ID)
-	# TODO: check player only for blackjack...
-	# sm.transition(HitState.ID)
+	state_machine.transition(HitState.ID)
 
 
 #func _on_FlipButton_pressed():

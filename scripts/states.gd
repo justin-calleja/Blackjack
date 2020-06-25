@@ -1,19 +1,21 @@
 const State = preload("res://addons/fsm/StateMachine.gd").State
 
 
-class StartState extends State:
+class StartState:
+	extends State
+
 	const ID = "start"
-	
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
 		target.deal_btn.fade_in()
 
 
-class DealInitialHandsState extends State:
+class DealInitialHandsState:
+	extends State
+
 	const ID = "deal_initial_hands"
-		
-		
+
 	func _on_enter_state():
 		print("enter %s state" % ID)
 		target.deal_btn.fade_out()
@@ -33,41 +35,34 @@ class DealInitialHandsState extends State:
 			state_machine.transition(PlayerInputState.ID)
 
 
-class PlayerLoseState extends State:
-	const ID = "player_lose"
+class PlayerBlackjackState:
+	extends State
 
-
-	func _on_enter_state():
-		print("enter %s state" % ID)
-
-
-class PlayerBlackjackState extends State:
 	const ID = "player_blackjack"
 
-
 	func _on_enter_state():
 		print("enter %s state" % ID)
-
 
 	func _on_leave_state():
 		print("leave %s state" % ID)
 
 
-class DealerBlackjackState extends State:
+class DealerBlackjackState:
+	extends State
+
 	const ID = "dealer_blackjack"
 
-
 	func _on_enter_state():
 		print("enter %s state" % ID)
-
 
 	func _on_leave_state():
 		print("leave %s state" % ID)
 
 
-class PlayerInputState extends State:
-	const ID = "player_input"
+class PlayerInputState:
+	extends State
 
+	const ID = "player_input"
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
@@ -76,22 +71,45 @@ class PlayerInputState extends State:
 		target.deal_btn.fade_out()
 
 
-class HitState extends State:
-	const ID = "hit"
+class HitState:
+	extends State
 
+	const ID = "hit"
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
 		target.deal_card_face_up_to(target.player)
 		target.player.adjust_cards()
-		# TODO: check player only for blackjack...
-		state_machine.transition(PlayerInputState.ID)
+
+		var player_hand_info = target.player.get_hand_info()
+		if player_hand_info.is_blackjack:
+			state_machine.transition(PlayerBlackjackState.ID)
+		elif player_hand_info.is_bust:
+			state_machine.transition(PlayerLoseState.ID)
+		else:
+			state_machine.transition(PlayerInputState.ID)
 
 
-class StandState extends State:
+class StandState:
+	extends State
+
 	const ID = "stand"
-
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
 
+
+class PlayerLoseState:
+	extends State
+	const ID = "player_lose"
+
+	func _on_enter_state():
+		print("enter %s state" % ID)
+
+
+class PlayerWinState:
+	extends State
+	const ID = "player_win"
+
+	func _on_enter_state():
+		print("enter %s state" % ID)
