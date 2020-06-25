@@ -42,9 +42,10 @@ class PlayerBlackjackState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
-
-	func _on_leave_state():
-		print("leave %s state" % ID)
+		target.hit_btn.fade_out()
+		target.stand_btn.fade_out()
+		target.deal_btn.fade_in()
+		# TODO: show blackjack label on player
 
 
 class DealerBlackjackState:
