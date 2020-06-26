@@ -67,6 +67,8 @@ func __pure_replace_first_11_with_1(values: Array):
 
 func get_hand_info():
 	var best_hand_total = get_best_hand_total()
+	print('%s> best_hand_total: %s' % [name, best_hand_total])
+	print('%s> %s' % [name, PoolStringArray(get_highest_hand_values()).join(" ")])
 	return {
 		"is_blackjack": best_hand_total == 21,
 		"is_bust": best_hand_total == 0,

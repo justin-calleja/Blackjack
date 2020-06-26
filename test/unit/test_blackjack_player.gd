@@ -9,7 +9,21 @@ var deck: BlackjackDeck
 var player: BlackjackPlayer
 
 
-func test_assert_eq_number_not_equal():
+func test_blackjack():
+	var card_names = [
+		"king_club",
+		"1_club",
+	]
+	deck = BlackjackDeck.new(card_names)
+	player = BlackjackPlayer.new(deck, Vector2())
+	player.take_card_face_up()
+	assert_eq(player.get_best_hand_total(), 11, "expected 11 total with an ace in hand")
+	player.take_card_face_up()
+	assert_eq(
+		player.get_best_hand_total(), 21, "expected 21 total with an ace (11) and king (10) in hand"
+	)
+
+func test_till_bust():
 	var card_names = [
 		"5_diamond",
 		"9_diamond",

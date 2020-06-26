@@ -6,6 +6,11 @@ var all_card_names: Array
 var undealt_card_names: Array
 var dealt_card_names = []
 
+# the string returned when trying to take a card but the deck is empty:
+const EMPTY = "EMPTY"
+# the string returned when trying to take a card by name but the deck does not contain such a card:
+const NO_SUCH_CARD = "NO_SUCH_CARD"
+
 
 func _init():
 	randomize()
@@ -20,15 +25,18 @@ func reset() -> void:
 	dealt_card_names.clear()
 
 
-func take_card_face_up() -> Card:
-	return __take_card(true)
+func take_by_name(card_name: String) -> String:
+	var index = undealt_card_names.find(card_name)
+	if index == -1:
+		return NO_SUCH_CARD
+	undealt_card_names.remove(index)
+	dealt_card_names.push_back(card_name)
+	return card_name
 
 
-func take_card_face_down() -> Card:
-	return __take_card(false)
-
-
-func __take_card(_is_face_up = true) -> Card:
-	push_error("in deck.gd __take_card must be implemented by a sub class")
-	assert(false)
-	return null
+func take_from_back() -> String:
+	var card_name = undealt_card_names.pop_back()
+	if card_name == null:
+		return EMPTY
+	dealt_card_names.push_back(card_name)
+	return card_name

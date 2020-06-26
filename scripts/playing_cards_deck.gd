@@ -7,11 +7,25 @@ func _init(card_names):
 	undealt_card_names = all_card_names.duplicate()
 
 
-func __take_card(is_face_up = true) -> Card:
-	var card_name = undealt_card_names.pop_back()
-	if card_name == null:
+func take_card_face_up(card_name: String = "") -> Card:
+	return (
+		__take_card(take_from_back(), true)
+		if card_name == ""
+		else __take_card(take_by_name(card_name), true)
+	)
+
+
+func take_card_face_down(card_name: String = "") -> Card:
+	return (
+		__take_card(take_from_back(), false)
+		if card_name == ""
+		else __take_card(take_by_name(card_name), false)
+	)
+
+
+func __take_card(card_name: String, is_face_up: bool) -> Card:
+	if card_name == EMPTY || card_name == NO_SUCH_CARD:
 		return null
-	dealt_card_names.push_back(card_name)
 
 	var card = Card.instance()
 	card.init(card_name, CARD_IMAGES[card_name].png, CARD_IMAGES["back"].png, is_face_up)

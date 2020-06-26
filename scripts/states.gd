@@ -19,10 +19,12 @@ class DealInitialHandsState:
 	func _on_enter_state():
 		print("enter %s state" % ID)
 		target.deal_btn.fade_out()
-		target.deal_initial_hands()
+		# wait for deal_initial_hands to complete...
+		yield(target.deal_initial_hands(), "completed")
 
 		var is_player_blackjack = target.player.get_hand_info().is_blackjack
 		var is_dealer_blackjack = target.dealer.get_hand_info().is_blackjack
+		print("is_player_blackjack: %s" % is_player_blackjack)
 
 		if is_player_blackjack and is_dealer_blackjack:
 			state_machine.transition("draw")
@@ -79,7 +81,9 @@ class HitState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
-		target.deal_card_face_up_to(target.player)
+		target.move_card_from_deck_to_position(
+			target.player.take_card_face_up(), target.player.get_next_card_position()
+		)
 		target.player.adjust_cards()
 
 		var player_hand_info = target.player.get_hand_info()

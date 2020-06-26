@@ -1,7 +1,7 @@
 extends TextureRect
 class_name Card
 
-onready var tween = $Tween
+onready var tween: Tween = $Tween
 onready var ap: AnimationPlayer = $AnimationPlayer
 export var is_face_up = false
 export var front_texture: Texture
@@ -38,7 +38,7 @@ func set_back_texture():
 	texture = back_texture
 
 
-func move_to(pos, duration = 0.5):
+func move_to(pos, duration = 0.5) -> void:
 	tween.interpolate_property(
 		self,
 		"rect_global_position",

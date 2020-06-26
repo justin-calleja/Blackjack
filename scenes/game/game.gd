@@ -110,34 +110,29 @@ func _on_HitButton_pressed():
 #		dealer_card_2.flip_front()
 
 
-func deal_card_face_up_to(_player: Player, duration = 0.5) -> void:
-	__move_card_from_deck_to_position(
-		_player.take_card_face_up(), _player.get_next_card_position(), duration
-	)
-
-
-func deal_card_face_down_to(_player: Player, duration = 0.5) -> void:
-	__move_card_from_deck_to_position(
-		_player.take_card_face_down(), _player.get_next_card_position(), duration
-	)
-
-
-func __move_card_from_deck_to_position(card: Card, pos: Vector2, duration) -> void:
+func move_card_from_deck_to_position(card: Card, pos: Vector2, duration = 0.5) -> void:
 	deck_rect.add_child(card)
 	card.move_to(pos, duration)
 
 
 func deal_initial_hands():
-	deal_card_face_up_to(player)
+	move_card_from_deck_to_position(
+		player.take_card_face_up("1_club"), player.get_next_card_position()
+	)
 	yield(get_tree().create_timer(0.25), "timeout")
 
-	deal_card_face_up_to(dealer)
+	move_card_from_deck_to_position(dealer.take_card_face_up(), dealer.get_next_card_position())
 	yield(get_tree().create_timer(0.25), "timeout")
 
-	deal_card_face_up_to(player, 1)
+	move_card_from_deck_to_position(
+		player.take_card_face_up("king_club"), player.get_next_card_position(), 1
+	)
 	yield(get_tree().create_timer(0.3), "timeout")
 
-	deal_card_face_down_to(dealer, 1)
+	move_card_from_deck_to_position(
+		dealer.take_card_face_down(), dealer.get_next_card_position(), 1
+	)
+	print('d')
 
 	player.adjust_cards()
 	dealer.adjust_cards()
