@@ -94,3 +94,16 @@ Utils.CARDS[card_name].alt_value if Utils.CARDS[card_name].has("alt_value") else
 
 godot -d -s --path $PWD addons/gut/gut_cmdln.gd -gtest=./test/unit/test_blackjack_player.gd -gexit
 
+- - -
+
+
+func fade_in():
+	ap.play("in")
+	disabled = false
+	visible = true
+	
+
+func fade_out():
+	ap.play("out")
+	disabled = true
+	visible = false

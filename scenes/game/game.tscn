@@ -29,6 +29,12 @@ __meta__ = {
 
 [node name="DeckRect" parent="Control" instance=ExtResource( 1 )]
 
+[node name="DealButton" parent="." instance=ExtResource( 4 )]
+margin_left = 576.0
+margin_top = 576.0
+margin_right = 678.0
+margin_bottom = 627.0
+
 [node name="StandButton" parent="." instance=ExtResource( 4 )]
 margin_left = 576.421
 margin_top = 501.582
@@ -40,11 +46,5 @@ margin_left = 576.0
 margin_top = 576.0
 margin_right = 678.0
 margin_bottom = 627.0
-
-[node name="DealButton" parent="." instance=ExtResource( 4 )]
-margin_left = 576.0
-margin_top = 576.0
-margin_right = 678.0
-margin_bottom = 627.0
-[connection signal="pressed" from="HitButton" to="." method="_on_HitButton_pressed"]
 [connection signal="pressed" from="DealButton" to="." method="_on_DealButton_pressed"]
+[connection signal="pressed" from="HitButton" to="." method="_on_HitButton_pressed"]

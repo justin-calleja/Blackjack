@@ -5,6 +5,7 @@ const Card = preload("res://scenes/card/card.tscn")
 const States = preload("res://scripts/states.gd")
 const BlackjackPlayer = preload("res://scripts/blackjack_player.gd")
 const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
+const FadeInOutTween = preload("res://scenes/fade_in_out/fade_in_out.tscn")
 
 const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
@@ -33,11 +34,16 @@ func _ready():
 	player.name = 'player'
 	dealer = BlackjackPlayer.new(deck, get_dealer_position())
 	dealer.name = 'dealer'
+
+	deal_btn.tween = FadeInOutTween.instance()
+	hit_btn.tween = FadeInOutTween.instance()
+	stand_btn.tween = FadeInOutTween.instance()
+	deal_btn.label_text = "Deal"
+	deal_btn.fade_in()
 	hit_btn.label_text = "Hit"
 	hit_btn.fade_out()
 	stand_btn.label_text = "Stand"
 	stand_btn.fade_out()
-	deal_btn.label_text = "Deal"
 
 	var smf = StateMachineFactory.new()
 	state_machine = smf.create(
