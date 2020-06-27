@@ -1,16 +1,6 @@
 const State = preload("res://addons/fsm/StateMachine.gd").State
 
 
-class StartState:
-	extends State
-
-	const ID = "start"
-
-	func _on_enter_state():
-		print("enter %s state" % ID)
-		target.deal_btn.fade_in()
-
-
 class DealInitialHandsState:
 	extends State
 
@@ -99,9 +89,7 @@ class HitState:
 		target.player.adjust_cards()
 
 		var player_hand_info = target.player.get_hand_info()
-		if player_hand_info.is_blackjack:
-			state_machine.transition(GameOverState.ID)
-		elif player_hand_info.is_bust:
+		if player_hand_info.is_blackjack or player_hand_info.is_bust:
 			state_machine.transition(GameOverState.ID)
 		else:
 			state_machine.transition(PlayerInputState.ID)

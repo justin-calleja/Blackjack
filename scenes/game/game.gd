@@ -6,7 +6,6 @@ const States = preload("res://scripts/states.gd")
 const BlackjackPlayer = preload("res://scripts/blackjack_player.gd")
 const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
 
-const StartState = States.StartState
 const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
 const HitState = States.HitState
@@ -44,10 +43,9 @@ func _ready():
 	state_machine = smf.create(
 		{
 			"target": self,
-			"current_state": StartState.ID,
+			"current_state": PlayerInputState.ID,
 			"states":
 			[
-				{"id": StartState.ID, "state": StartState},
 				{"id": DealInitialHandsState.ID, "state": DealInitialHandsState},
 				{"id": PlayerInputState.ID, "state": PlayerInputState},
 				{"id": GameOverState.ID, "state": GameOverState},
@@ -55,7 +53,6 @@ func _ready():
 			],
 			"transitions":
 			[
-				{"state_id": StartState.ID, "to_states": [DealInitialHandsState.ID]},
 				{
 					"state_id": DealInitialHandsState.ID,
 					"to_states": [PlayerInputState.ID, GameOverState.ID],
