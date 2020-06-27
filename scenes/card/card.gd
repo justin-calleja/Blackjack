@@ -49,3 +49,6 @@ func move_to(pos, duration = 0.5) -> void:
 	)
 	tween.start()
 
+
+func discard():
+	self.queue_free()

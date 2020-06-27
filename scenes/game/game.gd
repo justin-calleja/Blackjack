@@ -9,11 +9,9 @@ const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
 const StartState = States.StartState
 const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
-const PlayerBlackjackState = States.PlayerBlackjackState
-const DealerBlackjackState = States.DealerBlackjackState
 const HitState = States.HitState
 # const StandState = States.StandState
-const PlayerLoseState = States.PlayerLoseState
+const GameOverState = States.GameOverState
 
 onready var deck_rect: ColorRect = $Control/DeckRect
 onready var deal_btn = $DealButton
@@ -36,11 +34,11 @@ func _ready():
 	player.name = 'player'
 	dealer = BlackjackPlayer.new(deck, get_dealer_position())
 	dealer.name = 'dealer'
-	hit_btn.label = "Hit"
+	hit_btn.label_text = "Hit"
 	hit_btn.fade_out()
-	stand_btn.label = "Stand"
+	stand_btn.label_text = "Stand"
 	stand_btn.fade_out()
-	deal_btn.label = "Deal"
+	deal_btn.label_text = "Deal"
 
 	var smf = StateMachineFactory.new()
 	state_machine = smf.create(
@@ -52,35 +50,29 @@ func _ready():
 				{"id": StartState.ID, "state": StartState},
 				{"id": DealInitialHandsState.ID, "state": DealInitialHandsState},
 				{"id": PlayerInputState.ID, "state": PlayerInputState},
-				{"id": PlayerBlackjackState.ID, "state": PlayerBlackjackState},
-				{"id": DealerBlackjackState.ID, "state": DealerBlackjackState},
+				{"id": GameOverState.ID, "state": GameOverState},
 				{"id": HitState.ID, "state": HitState},
-				{"id": PlayerLoseState.ID, "state": PlayerLoseState},
 			],
 			"transitions":
 			[
-				{
-					"state_id": StartState.ID,
-					"to_states":
-					[
-						DealInitialHandsState.ID,
-					]
-				},
+				{"state_id": StartState.ID, "to_states": [DealInitialHandsState.ID]},
 				{
 					"state_id": DealInitialHandsState.ID,
-					"to_states":
-					[PlayerInputState.ID, PlayerBlackjackState.ID, DealerBlackjackState.ID],
+					"to_states": [PlayerInputState.ID, GameOverState.ID],
 				},
 				{
 					"state_id": PlayerInputState.ID,
-					"to_states": [PlayerLoseState.ID, PlayerBlackjackState.ID, HitState.ID]
+					"to_states": [HitState.ID, GameOverState.ID, DealInitialHandsState.ID]
 				},
 				{
 					"state_id": HitState.ID,
-					"to_states": [PlayerInputState.ID, PlayerBlackjackState.ID, PlayerLoseState.ID]
+					"to_states":
+					[
+						PlayerInputState.ID,
+						GameOverState.ID,
+					]
 				},
-				{"state_id": PlayerBlackjackState.ID, "to_states": [PlayerInputState.ID]},
-				{"state_id": PlayerLoseState.ID, "to_states": [PlayerInputState.ID]},
+				{"state_id": GameOverState.ID, "to_states": [PlayerInputState.ID]},
 			]
 		}
 	)
@@ -116,23 +108,18 @@ func move_card_from_deck_to_position(card: Card, pos: Vector2, duration = 0.5) -
 
 
 func deal_initial_hands():
-	move_card_from_deck_to_position(
-		player.take_card_face_up("1_club"), player.get_next_card_position()
-	)
+	move_card_from_deck_to_position(player.take_card_face_up(), player.get_next_card_position())
 	yield(get_tree().create_timer(0.25), "timeout")
 
 	move_card_from_deck_to_position(dealer.take_card_face_up(), dealer.get_next_card_position())
 	yield(get_tree().create_timer(0.25), "timeout")
 
-	move_card_from_deck_to_position(
-		player.take_card_face_up("king_club"), player.get_next_card_position(), 1
-	)
+	move_card_from_deck_to_position(player.take_card_face_up(), player.get_next_card_position(), 1)
 	yield(get_tree().create_timer(0.3), "timeout")
 
 	move_card_from_deck_to_position(
 		dealer.take_card_face_down(), dealer.get_next_card_position(), 1
 	)
-	print('d')
 
 	player.adjust_cards()
 	dealer.adjust_cards()

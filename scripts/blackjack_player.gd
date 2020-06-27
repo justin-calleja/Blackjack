@@ -73,5 +73,6 @@ func get_hand_info():
 		"is_blackjack": best_hand_total == 21,
 		"is_bust": best_hand_total == 0,
 		"should_dealer_stand": best_hand_total >= 17,
+		"best_hand_total": best_hand_total,
 	}
 

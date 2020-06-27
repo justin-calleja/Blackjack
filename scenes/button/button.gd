@@ -1,8 +1,9 @@
 extends Button
 
-onready var label = $Label setget set_label_text, get_label_text
+onready var label = $Label
 onready var ap = $AnimationPlayer
 
+var label_text setget set_label_text, get_label_text
 
 func set_label_text(txt):
 	label.text = txt

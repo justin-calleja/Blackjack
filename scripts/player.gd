@@ -8,10 +8,10 @@ var cards_x_offset: int
 var name = 'anon'
 
 
-func _init(_deck, _position, _cards_x_offset = 50):
-	deck = _deck
-	position = _position
-	cards_x_offset = _cards_x_offset
+func _init(a_deck, a_position, a_cards_x_offset = 50):
+	deck = a_deck
+	position = a_position
+	cards_x_offset = a_cards_x_offset
 
 
 func take_card_face_up(card_name: String = "") -> Card:
@@ -54,3 +54,10 @@ func adjust_cards():
 
 func get_number_of_cards_held():
 	return cards.size()
+
+
+func discard_cards():
+	for card in cards:
+		card.discard()
+	cards = []
+	
