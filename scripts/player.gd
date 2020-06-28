@@ -32,11 +32,11 @@ func __take_card(card_name: String, is_face_up: bool) -> Card:
 	return card
 
 
-func get_next_card_position():
+func get_next_card_position() -> Vector2:
 	return position + Vector2(cards_x_offset * cards.size(), 0)
 
 
-func adjust_cards():
+func adjust_cards() -> void:
 	match cards.size():
 		1:
 			return
@@ -52,11 +52,11 @@ func adjust_cards():
 					cards[i].rect_rotation = 0
 
 
-func get_number_of_cards_held():
+func get_number_of_cards_held() -> int:
 	return cards.size()
 
 
-func discard_cards():
+func discard_cards() -> void:
 	for card in cards:
 		card.discard()
 	cards = []

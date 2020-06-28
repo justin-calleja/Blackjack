@@ -19,7 +19,6 @@ func set_tween(a_tween):
 		tween.queue_free()
 	tween = a_tween
 	self.add_child(tween)
-	print('done adding tween...')
 
 
 func fade_in():

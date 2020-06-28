@@ -8,6 +8,8 @@ class DealInitialHandsState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
+		target.player.hide_game_over_label()
+		target.dealer.hide_game_over_label()
 		target.player.discard_cards()
 		target.dealer.discard_cards()
 		target.deck.reset()
@@ -33,36 +35,47 @@ class DealInitialHandsState:
 
 class GameOverState:
 	extends State
-	
+
 	const ID = "game_over"
-	
+
 	func _on_enter_state():
 		print("enter %s state" % ID)
 		target.hit_btn.fade_out()
 		target.stand_btn.fade_out()
 		target.deal_btn.fade_in()
-		# TODO: figure out who won (or if its a draw) and show labels accordingly
 		var player_hand_info = target.player.get_hand_info()
 		var dealer_hand_info = target.dealer.get_hand_info()
 		if player_hand_info.is_bust:
 			print('player is bust')
+			target.player.show_game_over_label("Bust")
 		elif dealer_hand_info.is_bust:
 			print('dealer is bust')
+			target.dealer.show_game_over_label("Bust")
 		elif player_hand_info.is_blackjack and dealer_hand_info.is_blackjack:
 			print('blackjack draw')
+			target.player.show_game_over_label("Draw")
+			target.dealer.show_game_over_label("Draw")
 		elif player_hand_info.is_blackjack:
 			print('player is blackjack')
+			target.player.show_game_over_label("Blackjack")
 		elif dealer_hand_info.is_blackjack:
 			print('dealer is blackjack')
+			target.dealer.show_game_over_label("Blackjack")
 		elif player_hand_info.best_hand_total > dealer_hand_info.best_hand_total:
 			print('player wins')
+			target.player.show_game_over_label("Win")
+			target.dealer.show_game_over_label("Lose")
 		elif player_hand_info.best_hand_total < dealer_hand_info.best_hand_total:
 			print('dealer wins')
+			target.player.show_game_over_label("Lose")
+			target.dealer.show_game_over_label("Win")
 		elif player_hand_info.best_hand_total == dealer_hand_info.best_hand_total:
 			print('draw')
-		
+			target.player.show_game_over_label("Draw")
+			target.dealer.show_game_over_label("Draw")
+
 		state_machine.transition(PlayerInputState.ID)
-		
+
 
 class PlayerInputState:
 	extends State
@@ -71,6 +84,8 @@ class PlayerInputState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
+
+
 #		target.hit_btn.fade_in()
 #		target.stand_btn.fade_in()
 #		target.deal_btn.fade_out()
@@ -102,5 +117,3 @@ class StandState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
-
-

@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/deck.gd"
 }, {
+"base": "Tween",
+"class": "FadeInOutTween",
+"language": "GDScript",
+"path": "res://scenes/fade_in_out/fade_in_out.gd"
+}, {
+"base": "ColorRect",
+"class": "GameOverLabel",
+"language": "GDScript",
+"path": "res://scenes/label/label.gd"
+}, {
 "base": "Reference",
 "class": "Player",
 "language": "GDScript",
@@ -48,6 +58,8 @@ _global_script_class_icons={
 "BlackjackPlayer": "",
 "Card": "",
 "Deck": "",
+"FadeInOutTween": "",
+"GameOverLabel": "",
 "Player": "",
 "PlayingCardsDeck": "",
 "StateMachine": "",

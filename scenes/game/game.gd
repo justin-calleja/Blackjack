@@ -4,6 +4,7 @@ const StateMachineFactory = preload("res://addons/fsm/StateMachineFactory.gd")
 const Card = preload("res://scenes/card/card.tscn")
 const States = preload("res://scripts/states.gd")
 const BlackjackPlayer = preload("res://scripts/blackjack_player.gd")
+const GamePlayer = preload("res://scripts/game_player.gd")
 const BlackjackDeck = preload("res://scripts/blackjack_deck.gd")
 const FadeInOutTween = preload("res://scenes/fade_in_out/fade_in_out.tscn")
 
@@ -20,8 +21,8 @@ onready var stand_btn = $StandButton
 
 var deck: BlackjackDeck
 var state_machine: StateMachine
-var player: BlackjackPlayer
-var dealer: BlackjackPlayer
+var player: GamePlayer
+var dealer: GamePlayer
 
 
 func _ready():
@@ -30,10 +31,10 @@ func _ready():
 	deck = BlackjackDeck.new(card_names)
 	deck.shuffle()
 
-	player = BlackjackPlayer.new(deck, get_player_position())
-	player.name = 'player'
-	dealer = BlackjackPlayer.new(deck, get_dealer_position())
-	dealer.name = 'dealer'
+	player = GamePlayer.new(BlackjackPlayer.new(deck, get_player_position()), 'player')
+	dealer = GamePlayer.new(BlackjackPlayer.new(deck, get_dealer_position()), 'dealer')
+	add_child(player)
+	add_child(dealer)
 
 	deal_btn.tween = FadeInOutTween.instance()
 	hit_btn.tween = FadeInOutTween.instance()

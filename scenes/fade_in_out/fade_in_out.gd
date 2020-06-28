@@ -1,4 +1,5 @@
 extends Tween
+class_name FadeInOutTween
 
 var duration = 0.4
 
