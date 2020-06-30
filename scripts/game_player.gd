@@ -3,6 +3,10 @@ extends Node2D
 const BlackjackPlayer = preload("res://scripts/blackjack_player.gd")
 const FadeInOutTween = preload("res://scenes/fade_in_out/fade_in_out.tscn")
 const GameOverLabel = preload("res://scenes/label/label.tscn")
+const WinColor: Color = Color8(184, 218, 49)
+const LoseColor: Color = Color8(204, 11, 30)
+const BlackjackColor: Color = Color8(51, 48, 48)
+const DrawColor: Color = Color8(188, 150, 0)
 
 var player: BlackjackPlayer
 var game_over_label: GameOverLabel
@@ -23,8 +27,10 @@ func _ready():
 	game_over_label.visible = false
 	add_child(tween)
 
+
 func get_next_card_position() -> Vector2:
 	return player.get_next_card_position()
+
 
 func take_card_face_up(card_name: String = "") -> Card:
 	return player.take_card_face_up(card_name)
@@ -46,7 +52,31 @@ func get_hand_info() -> Dictionary:
 	return player.get_hand_info()
 
 
-func show_game_over_label(a_label_text):
+func show_win_label():
+	game_over_label.color = WinColor
+	__show_game_over_label("WIN")
+
+
+func show_lose_label():
+	game_over_label.color = LoseColor
+	__show_game_over_label("LOSE")
+
+
+func show_bust_label():
+	game_over_label.color = LoseColor
+	__show_game_over_label("BUST")
+
+func show_blackjack_label():
+	game_over_label.color = BlackjackColor
+	__show_game_over_label("BLACKJACK!")
+
+
+func show_draw_label():
+	game_over_label.color = DrawColor
+	__show_game_over_label("DRAW")
+
+
+func __show_game_over_label(a_label_text):
 	game_over_label.visible = true
 	game_over_label.label_text = a_label_text
 	tween.fade_in(game_over_label)
