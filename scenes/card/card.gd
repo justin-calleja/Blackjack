@@ -14,27 +14,35 @@ func init(_id, _front_texture, _back_texture, _is_face_up = false):
 	front_texture = _front_texture
 	back_texture = _back_texture
 	is_face_up = _is_face_up
-	if is_face_up: set_front_texture()
-	else: set_back_texture()
-	
+	if is_face_up:
+		set_front_texture()
+	else:
+		set_back_texture()
 
-func get_name():
+
+func get_name() -> String:
 	return id
 
 
-func flip_front():
+func flip() -> void:
+	flip_back() if is_face_up else flip_front()
+
+
+func flip_front() -> void:
 	ap.play("flip_front")
+	is_face_up = true
 
 
-func flip_back():
+func flip_back() -> void:
 	ap.play("flip_back")
+	is_face_up = false
 
 
-func set_front_texture():
+func set_front_texture() -> void:
 	texture = front_texture
 
-	
-func set_back_texture():
+
+func set_back_texture() -> void:
 	texture = back_texture
 
 
@@ -45,7 +53,8 @@ func move_to(pos, duration = 0.5) -> void:
 		self.rect_global_position,
 		pos,
 		duration,
-		Tween.TRANS_CUBIC, Tween.EASE_OUT
+		Tween.TRANS_CUBIC,
+		Tween.EASE_OUT
 	)
 	tween.start()
 

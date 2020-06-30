@@ -2,7 +2,9 @@ class_name Player
 
 var cards = []
 var deck: PlayingCardsDeck
+# TODO: re-think whether it's appropriate to have a position in a UI agnostic class: (maybe game_player.gd should have this?)
 var position: Vector2
+# TODO: re-think whether it's appropriate to have a position in a UI agnostic class:
 # The distance between cards in a player's hand (so you can see all cards)
 var cards_x_offset: int
 var name = 'anon'

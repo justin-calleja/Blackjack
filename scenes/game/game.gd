@@ -11,7 +11,7 @@ const FadeInOutTween = preload("res://scenes/fade_in_out/fade_in_out.tscn")
 const DealInitialHandsState = States.DealInitialHandsState
 const PlayerInputState = States.PlayerInputState
 const HitState = States.HitState
-# const StandState = States.StandState
+const StandState = States.StandState
 const GameOverState = States.GameOverState
 
 onready var deck_rect: ColorRect = $Control/DeckRect
@@ -57,6 +57,7 @@ func _ready():
 				{"id": PlayerInputState.ID, "state": PlayerInputState},
 				{"id": GameOverState.ID, "state": GameOverState},
 				{"id": HitState.ID, "state": HitState},
+				{"id": StandState.ID, "state": StandState},
 			],
 			"transitions":
 			[
@@ -66,7 +67,8 @@ func _ready():
 				},
 				{
 					"state_id": PlayerInputState.ID,
-					"to_states": [HitState.ID, GameOverState.ID, DealInitialHandsState.ID]
+					"to_states":
+					[HitState.ID, StandState.ID, GameOverState.ID, DealInitialHandsState.ID]
 				},
 				{
 					"state_id": HitState.ID,
@@ -76,6 +78,7 @@ func _ready():
 						GameOverState.ID,
 					]
 				},
+				{"state_id": StandState.ID, "to_states": [GameOverState.ID]},
 				{"state_id": GameOverState.ID, "to_states": [PlayerInputState.ID]},
 			]
 		}
@@ -99,6 +102,10 @@ func _on_DealButton_pressed():
 
 func _on_HitButton_pressed():
 	state_machine.transition(HitState.ID)
+
+
+func _on_StandButton_pressed():
+	state_machine.transition(StandState.ID)
 
 
 #func _on_FlipButton_pressed():

@@ -86,11 +86,6 @@ class PlayerInputState:
 		print("enter %s state" % ID)
 
 
-#		target.hit_btn.fade_in()
-#		target.stand_btn.fade_in()
-#		target.deal_btn.fade_out()
-
-
 class HitState:
 	extends State
 
@@ -117,3 +112,11 @@ class StandState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
+		target.dealer.flip_card_at_index(1)
+		while not target.dealer.get_hand_info().should_dealer_stand:
+			target.move_card_from_deck_to_position(
+				target.dealer.take_card_face_up(), target.dealer.get_next_card_position()
+			)
+			target.dealer.adjust_cards()
+
+		state_machine.transition(GameOverState.ID)

@@ -25,11 +25,15 @@ func _ready():
 
 	add_child(game_over_label)
 	game_over_label.visible = false
-	game_over_label.rect_position += Vector2(70, 70)
+	game_over_label.rect_position += Vector2(90, 90)
 	add_child(tween)
 
 
+func flip_card_at_index(index):
+	player.cards[index].flip()
+
 func get_next_card_position() -> Vector2:
+	# TODO: maybe this method should actually be implemented here...
 	return player.get_next_card_position()
 
 
@@ -66,6 +70,7 @@ func show_lose_label():
 func show_bust_label():
 	game_over_label.color = LoseColor
 	__show_game_over_label("BUST")
+
 
 func show_blackjack_label():
 	game_over_label.color = BlackjackColor
