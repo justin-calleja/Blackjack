@@ -25,6 +25,7 @@ func _ready():
 
 	add_child(game_over_label)
 	game_over_label.visible = false
+	game_over_label.rect_position += Vector2(70, 70)
 	add_child(tween)
 
 
