@@ -26,6 +26,8 @@ func reset() -> void:
 
 
 func take_by_name(card_name: String) -> String:
+	if undealt_card_names.size() == 0:
+		return EMPTY
 	var index = undealt_card_names.find(card_name)
 	if index == -1:
 		return NO_SUCH_CARD
@@ -35,8 +37,8 @@ func take_by_name(card_name: String) -> String:
 
 
 func take_from_back() -> String:
-	var card_name = undealt_card_names.pop_back()
-	if card_name == null:
+	if undealt_card_names.size() == 0:
 		return EMPTY
+	var card_name = undealt_card_names.pop_back()
 	dealt_card_names.push_back(card_name)
 	return card_name

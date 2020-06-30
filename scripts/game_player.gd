@@ -29,9 +29,6 @@ func _ready():
 	add_child(tween)
 
 
-func flip_card_at_index(index):
-	player.cards[index].flip()
-
 func get_next_card_position() -> Vector2:
 	# TODO: maybe this method should actually be implemented here...
 	return player.get_next_card_position()
@@ -90,3 +87,12 @@ func __show_game_over_label(a_label_text):
 
 func hide_game_over_label():
 	tween.fade_out(game_over_label)
+
+
+func show_all_cards():
+	for card in player.cards:
+		if not card.is_face_up:
+			card.flip()
+	# or, knowing that only the dealer can have a face down card:
+	# if not player.cards[1].is_face_up:
+	# 	player.cards[1].flip()

@@ -43,8 +43,12 @@ class GameOverState:
 		target.hit_btn.fade_out()
 		target.stand_btn.fade_out()
 		target.deal_btn.fade_in()
+
+		target.dealer.show_all_cards()
+
 		var player_hand_info = target.player.get_hand_info()
 		var dealer_hand_info = target.dealer.get_hand_info()
+
 		if player_hand_info.is_bust:
 			print('player is bust')
 			target.player.show_bust_label()
@@ -112,8 +116,9 @@ class StandState:
 
 	func _on_enter_state():
 		print("enter %s state" % ID)
-		target.dealer.flip_card_at_index(1)
-		while not target.dealer.get_hand_info().should_dealer_stand:
+		target.dealer.show_all_cards()
+
+		while target.dealer.get_hand_info().should_dealer_take_card:
 			target.move_card_from_deck_to_position(
 				target.dealer.take_card_face_up(), target.dealer.get_next_card_position()
 			)

@@ -3,7 +3,7 @@ class_name BlackjackPlayer
 
 
 #https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html#class-constructor
-func _init(_deck, _position, _cards_x_offset = 50).(_deck, _position, _cards_x_offset):
+func _init(a_deck, a_position, a_cards_x_offset = 50).(a_deck, a_position, a_cards_x_offset):
 	pass
 
 
@@ -67,12 +67,13 @@ func __pure_replace_first_11_with_1(values: Array):
 
 func get_hand_info() -> Dictionary:
 	var best_hand_total = get_best_hand_total()
-	print('%s> best_hand_total: %s' % [name, best_hand_total])
-	print('%s> %s' % [name, PoolStringArray(get_highest_hand_values()).join(" ")])
+	# print_debug('%s> best_hand_total: %s' % [name, best_hand_total])
+	# print_debug('%s> %s' % [name, PoolStringArray(get_highest_hand_values()).join(" ")])
 	return {
 		"is_blackjack": best_hand_total == 21,
 		"is_bust": best_hand_total == 0,
-		"should_dealer_stand": best_hand_total >= 17,
+		# the dealer should keep taking cards till 17+ or bust
+		"should_dealer_take_card": best_hand_total < 17 and not best_hand_total == 0,
 		"best_hand_total": best_hand_total,
 	}
 
