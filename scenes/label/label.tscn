@@ -4,11 +4,12 @@
 [ext_resource path="res://scenes/label/label.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
+size = 32
 font_data = ExtResource( 1 )
 
 [node name="ColorRect" type="ColorRect"]
-margin_right = 91.0
-margin_bottom = 31.0
+margin_right = 162.0
+margin_bottom = 59.0
 color = Color( 0.2, 0.188235, 0.188235, 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -19,6 +20,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = SubResource( 1 )
+text = "Blackjack"
 align = 1
 valign = 1
 __meta__ = {
