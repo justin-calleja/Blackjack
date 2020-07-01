@@ -108,11 +108,6 @@ func _on_StandButton_pressed():
 	state_machine.transition(StandState.ID)
 
 
-#func _on_FlipButton_pressed():
-#	if dealer_card_2:
-#		dealer_card_2.flip_front()
-
-
 func move_card_from_deck_to_position(card: Card, pos: Vector2, duration = 0.5) -> void:
 	deck_rect.add_child(card)
 	card.move_to(pos, duration)

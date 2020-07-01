@@ -11,4 +11,4 @@ onready var label = $Label
 func set_text(new_text):
 #	label.bbcode_text = new_text
 	label.text = new_text
-	print('label:', label.text)
+	print_debug('label:', label.text)

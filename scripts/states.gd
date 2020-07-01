@@ -7,7 +7,7 @@ class DealInitialHandsState:
 	const ID = "deal_initial_hands"
 
 	func _on_enter_state():
-		print("enter %s state" % ID)
+		print_debug("enter %s state" % ID)
 		target.player.hide_game_over_label()
 		target.dealer.hide_game_over_label()
 		target.player.discard_cards()
@@ -32,6 +32,9 @@ class DealInitialHandsState:
 			target.hit_btn.fade_in()
 			target.stand_btn.fade_in()
 
+	func _on_leave_state():
+		pass
+
 
 class GameOverState:
 	extends State
@@ -39,7 +42,7 @@ class GameOverState:
 	const ID = "game_over"
 
 	func _on_enter_state():
-		print("enter %s state" % ID)
+		print_debug("enter %s state" % ID)
 		target.hit_btn.fade_out()
 		target.stand_btn.fade_out()
 		target.deal_btn.fade_in()
@@ -50,35 +53,30 @@ class GameOverState:
 		var dealer_hand_info = target.dealer.get_hand_info()
 
 		if player_hand_info.is_bust:
-			print('player is bust')
 			target.player.show_bust_label()
 		elif dealer_hand_info.is_bust:
-			print('dealer is bust')
 			target.dealer.show_bust_label()
 		elif player_hand_info.is_blackjack and dealer_hand_info.is_blackjack:
-			print('blackjack draw')
 			target.player.show_draw_label()
 			target.dealer.show_draw_label()
 		elif player_hand_info.is_blackjack:
-			print('player is blackjack')
 			target.player.show_blackjack_label()
 		elif dealer_hand_info.is_blackjack:
-			print('dealer is blackjack')
 			target.dealer.show_blackjack_label()
 		elif player_hand_info.best_hand_total > dealer_hand_info.best_hand_total:
-			print('player wins')
 			target.player.show_win_label()
 			target.dealer.show_lose_label()
 		elif player_hand_info.best_hand_total < dealer_hand_info.best_hand_total:
-			print('dealer wins')
 			target.player.show_lose_label()
 			target.dealer.show_win_label()
 		elif player_hand_info.best_hand_total == dealer_hand_info.best_hand_total:
-			print('draw')
 			target.player.show_draw_label()
 			target.dealer.show_draw_label()
 
 		state_machine.transition(PlayerInputState.ID)
+
+	func _on_leave_state():
+		pass
 
 
 class PlayerInputState:
@@ -87,7 +85,10 @@ class PlayerInputState:
 	const ID = "player_input"
 
 	func _on_enter_state():
-		print("enter %s state" % ID)
+		print_debug("enter %s state" % ID)
+
+	func _on_leave_state():
+		pass
 
 
 class HitState:
@@ -96,7 +97,7 @@ class HitState:
 	const ID = "hit"
 
 	func _on_enter_state():
-		print("enter %s state" % ID)
+		print_debug("enter %s state" % ID)
 		target.move_card_from_deck_to_position(
 			target.player.take_card_face_up(), target.player.get_next_card_position()
 		)
@@ -108,6 +109,9 @@ class HitState:
 		else:
 			state_machine.transition(PlayerInputState.ID)
 
+	func _on_leave_state():
+		pass
+
 
 class StandState:
 	extends State
@@ -115,7 +119,7 @@ class StandState:
 	const ID = "stand"
 
 	func _on_enter_state():
-		print("enter %s state" % ID)
+		print_debug("enter %s state" % ID)
 		target.dealer.show_all_cards()
 
 		while target.dealer.get_hand_info().should_dealer_take_card:
@@ -123,5 +127,9 @@ class StandState:
 				target.dealer.take_card_face_up(), target.dealer.get_next_card_position()
 			)
 			target.dealer.adjust_cards()
+			yield(target.get_tree().create_timer(0.5), "timeout")
 
 		state_machine.transition(GameOverState.ID)
+
+	func _on_leave_state():
+		pass
