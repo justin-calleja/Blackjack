@@ -70,6 +70,7 @@ text = "Dealer stands on 17"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="DealButton" to="." method="_on_DealButton_pressed"]
 [connection signal="pressed" from="StandButton" to="." method="_on_StandButton_pressed"]
 [connection signal="pressed" from="HitButton" to="." method="_on_HitButton_pressed"]
